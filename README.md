@@ -1,10 +1,11 @@
 # Discrete-Mathematics-Laboratories
 Solutions and discussions for Discrete Mathematics Laboratories for Masters.
 
-This repository currently contains two labs:
+This repository currently contains three labs:
 
 1. Lab 1: Max-Cut optimization using a multi-start local search heuristic
 2. Lab 2: Asymmetric cryptography (RSA) implementation and classical factorization attacks
+3. Lab 3: Set theory framework with logic, characteristic functions, and an optional set-based job recommender
 
 ## Lab 1: Max-Cut Problem
 
@@ -57,3 +58,32 @@ The lab includes interactive experiments and plots for:
 
 ### Conclusion
 Lab 2 demonstrates a central cryptographic principle: RSA security depends on the hardness of factoring large semiprimes. For small educational key sizes, attacks can often recover factors quickly; however, as key size increases, computational cost grows dramatically, making properly generated modern RSA keys infeasible to break with classical methods. The notebook combines theory, implementation, and empirical benchmarking to show both how RSA works and why key-size selection is critical in practice.
+
+## Lab 3: Set Theory Framework and Set-Based Recommendation
+
+### Objective
+Design a modular Python framework to model core set-theory concepts and demonstrate how set operations can be applied to practical recommendation tasks.
+
+### Scope of Implementation
+Lab 3 is divided into two parts:
+1. **Mandatory tasks**: a foundational framework for sets, multisets, logic formulas, characteristic functions, and inclusion-exclusion
+2. **Optional task**: a job recommendation engine that uses set-similarity metrics between user skill profiles
+
+### Mandatory Module Coverage
+The mandatory module includes:
+1. **Core abstractions**: `Set`, `MultiSet`, and `EmptySet`
+2. **Set operations**: union, intersection, relative and absolute complement, Cartesian product, power set, and cardinality helpers
+3. **Logic utilities**: propositional formula parsing and truth-table generation
+4. **Characteristic functions**: membership functions for sets and multisets
+5. **Validation and demos**: test suite, main walkthrough, and additional worked examples
+
+### Optional Module Coverage
+The optional module includes:
+1. User and job data models with sample datasets
+2. Similarity metrics: Jaccard, Sorensen-Dice, and Cosine
+3. Skill-match analysis (matching and missing skills)
+4. Recommendation scoring and ranked outputs
+5. End-to-end demonstration script across multiple users and metrics
+
+### Conclusion
+Lab 3 links mathematical foundations to software design by turning abstract set theory into reusable program components and applied workflows. The mandatory section builds confidence with formal operations and logic reasoning, while the optional recommender demonstrates how set similarity directly supports decision-making in real scenarios. Together, they highlight both theoretical rigor and practical relevance in discrete mathematics.
