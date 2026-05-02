@@ -87,3 +87,52 @@ The optional module includes:
 
 ### Conclusion
 Lab 3 links mathematical foundations to software design by turning abstract set theory into reusable program components and applied workflows. The mandatory section builds confidence with formal operations and logic reasoning, while the optional recommender demonstrates how set similarity directly supports decision-making in real scenarios. Together, they highlight both theoretical rigor and practical relevance in discrete mathematics.
+
+## Lab 4: Complexity, Growth and Interactive Explorations
+
+### Objective
+Investigate functions and algorithms that illustrate extreme growth rates and algorithmic complexity. Lab 4 contains both interactive Python explorations and a static web-based presentation to make asymptotic phenomena tangible.
+
+### Structure
+Lab 4 is organised into two parts:
+
+- **Part 1 (Python projects)** — interactive, notebook-style and script-based explorations implemented in Python. Current subprojects:
+	- `Ackermann_Function` — an in-depth, interactive explorer of the Ackermann function: definition, closed forms for small rows, visualisation, recursion-call counts, and a memoised OOP implementation with special-casing for `A(4,2)`.
+	- `nim_game` — a full GUI Nim implementation (tkinter) with four rule variants, three AI difficulty levels, and a layered screen architecture for gameplay and setup.
+	- `Stirlings_Approximation` — numerical and visual study of Stirling's formula for `n!`, including log-space computation, error analysis, and interactive plots.
+
+- **Part 2 (Web demo)** — a browser-based bundle (`DiscreteMath Lab4`) that mirrors the Part 1 content with interactive web pages and JavaScript visualisations. Files include `index.html`, interactive scripts (`ackermann.js`, `nim.js`, `stirling.js`), and small helper modules for rendering and tweaks.
+
+### How to Run
+
+Python (Part 1):
+
+```powershell
+# from the repo root
+cd "d:\Git area (testing)\Discrete-Mathematics-Laboratories\lab4_Complexity\part1\Ackermann_Function"
+pip install -r requirements.txt  # if present; otherwise install numpy and matplotlib
+python ackermann.py
+
+# Nim GUI
+cd ..\nim_game
+python main.py
+
+# Stirling interactive
+cd ..\Stirlings_Approximation
+python stirling.py
+```
+
+Web demo (Part 2):
+
+```powershell
+# open the web demo in your browser
+cd "d:\Git area (testing)\Discrete-Mathematics-Laboratories\lab4_Complexity\part2\DiscreteMath Lab4"
+start index.html
+```
+
+### Notes
+- Part 1 focuses on numerical accuracy, recursion behaviour, and Python-driven visualisations (matplotlib + interactive widgets).
+- Part 2 provides a lightweight client-side presentation suitable for sharing or embedding in course pages.
+
+### Conclusion
+Lab 4 ties asymptotic analysis and algorithmic growth to concrete tools and interactive experiments. The Ackermann explorer shows how a deceptively simple recursion can escape primitive recursion; Nim connects game theory to algorithmic strategy and UI design; Stirling's approximation demonstrates why asymptotic estimates are indispensable in combinatorics and complexity analysis.
