@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Discrete Math · Lab 04 — Atom of Recursion</title>
+<link rel="stylesheet" href="styles.css" />
+<script defer src="tweaks.js"></script>
+</head>
+<body>
+
+<!-- Background layers -->
+<div class="bg-layer bg-grid"></div>
+<div class="bg-layer bg-glow"></div>
+
+<!-- ATOM SCENE -->
+<div class="atom-stage">
+  <div class="atom" id="atom">
+    <div class="orbit orbit-1"></div>
+    <div class="orbit orbit-2"></div>
+    <div class="orbit orbit-3"></div>
+
+    <div class="nucleus">
+      <div class="core"></div>
+      <h1>Discrete Mathematics<br/>Laboratory<span class="lab">04 · Complexity</span></h1>
+    </div>
+
+    <div class="ring ring-1">
+      <div class="electron-wrap" data-open="stirling">
+        <div class="counter">
+          <div class="electron"></div>
+          <div class="electron-label">Stirling</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="ring ring-2">
+      <div class="electron-wrap" data-open="ackermann">
+        <div class="counter">
+          <div class="electron"></div>
+          <div class="electron-label">Ackermann</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="ring ring-3">
+      <div class="electron-wrap" data-open="nim">
+        <div class="counter">
+          <div class="electron"></div>
+          <div class="electron-label">Nim</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============== STIRLING OVERLAY ============== -->
+<div class="overlay" id="ov-stirling" data-overlay>
+  <div class="card">
+    <div class="card-header">
+      <div class="h-left">
+        <div class="icon-orb"></div>
+        <div>
+          <div class="eyebrow">Module 01 · Combinatorics</div>
+          <h2>Stirling — Factorial Approximation &amp; Numbers of the 2nd Kind</h2>
+        </div>
+      </div>
+      <button class="close-btn" data-close>✕</button>
+    </div>
+    <div class="card-body">
+      <div class="tabs">
+        <button class="tab active" data-tab="lab" data-target="stir-lab">Lab</button>
+        <button class="tab" data-tab="lab" data-target="stir-doc">Reference</button>
+      </div>
+
+      <!-- LAB -->
+      <div class="tab-pane active" id="stir-lab">
+
+        <!-- Stirling Numbers S(n,k) -->
+        <div class="panel">
+          <div class="panel-title">
+            Stirling Numbers · S(n,k) <span class="badge">2nd Kind</span>
+          </div>
+          <p style="font-size:12.5px; color:var(--text-dim); line-height:1.6; margin-bottom:12px;">
+            <code>S(n,k)</code> counts ways to partition an <code>n</code>-set into <code>k</code> non-empty unlabeled blocks. Recurrence:
+            <code>S(n,k) = k·S(n−1,k) + S(n−1,k−1)</code>.
+          </p>
+          <div class="row" style="margin-bottom:14px;">
+            <div class="input-group">
+              <label>n</label>
+              <div class="stepper">
+                <button data-stir-n="-1">−</button>
+                <div class="val" id="stir-n">5</div>
+                <button data-stir-n="1">+</button>
+              </div>
+            </div>
+            <div class="input-group">
+              <label>k</label>
+              <div class="stepper">
+                <button data-stir-k="-1">−</button>
+                <div class="val" id="stir-k">2</div>
+                <button data-stir-k="1">+</button>
+              </div>
+            </div>
+            <div style="margin-left:auto;">
+              <span style="font-size:11px; letter-spacing:0.18em; text-transform:uppercase; color:var(--text-muted);">S(n,k) =</span>
+              <span class="v" id="stir-result" style="font-family:'SF Mono',monospace; color:var(--teal); font-size:18px; font-weight:600; margin-left:8px;">25</span>
+            </div>
+          </div>
+
+          <div class="scroll-x">
+            <table class="stirling-table" id="stir-table"></table>
+          </div>
+
+          <div style="margin-top:12px; font-size:11.5px; color:var(--text-muted);">
+            Bell number B(<span id="stir-rowsum-n">5</span>) = total partitions =
+            <span style="color:var(--violet); font-weight:600;" id="stir-bell">52</span>
+          </div>
+
+          <div class="partitions" id="stir-partitions"></div>
+        </div>
+
+        <!-- Factorial / Stirling approximation -->
+        <div class="panel">
+          <div class="panel-title">
+            Factorial Approximation <span class="badge">n!</span>
+          </div>
+          <p style="font-size:12.5px; color:var(--text-dim); line-height:1.6; margin-bottom:12px;">
+            <code>n! ≈ √(2πn) · (n/e)<sup>n</sup></code> &nbsp;·&nbsp; log form is numerically stable for any n.
+          </p>
+          <div class="row" style="margin-bottom:14px;">
+            <div class="input-group">
+              <label>n</label>
+              <div class="stepper">
+                <button data-fact-n="-5">−5</button>
+                <button data-fact-n="-1">−</button>
+                <div class="val" id="fact-n">10</div>
+                <button data-fact-n="1">+</button>
+                <button data-fact-n="5">+5</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="stats">
+            <div class="stat"><div class="lbl">Exact n!</div><div class="val" id="fact-exact">3,628,800</div></div>
+            <div class="stat violet"><div class="lbl">Stirling</div><div class="val" id="fact-stirling">—</div></div>
+            <div class="stat amber"><div class="lbl">Ramanujan</div><div class="val" id="fact-ram">—</div></div>
+            <div class="stat"><div class="lbl">Stirling + 1/12n</div><div class="val" id="fact-series">—</div></div>
+          </div>
+          <div class="stats" style="margin-top:8px;">
+            <div class="stat"><div class="lbl">Err Stirling</div><div class="val" id="fact-err-stirling">—</div></div>
+            <div class="stat amber"><div class="lbl">Err Ramanujan</div><div class="val" id="fact-err-ram">—</div></div>
+            <div class="stat"><div class="lbl">Err Series</div><div class="val" id="fact-err-series">—</div></div>
+            <div class="stat violet"><div class="lbl">Ratio n!/Stirling</div><div class="val" id="fact-ratio">—</div></div>
+          </div>
+
+          <div class="grid-2" style="margin-top:14px;">
+            <div>
+              <div class="panel-title" style="margin-bottom:6px;">Relative Error · log scale</div>
+              <div class="chart"><svg id="chart-error" viewBox="0 0 560 220"></svg></div>
+            </div>
+            <div>
+              <div class="panel-title" style="margin-bottom:6px;">ln(n!) Growth</div>
+              <div class="chart"><svg id="chart-growth" viewBox="0 0 560 220"></svg></div>
+            </div>
+          </div>
+
+          <div class="formula-card" style="margin-top:14px;">
+            <div class="ftitle">Bound</div>
+            |ln(n!) − Stirling| / |ln(n!)|  &lt;  1 / (12n)
+          </div>
+        </div>
+      </div>
+
+      <!-- DOC -->
+      <div class="tab-pane" id="stir-doc">
+        <div class="md" id="stir-md"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============== ACKERMANN OVERLAY ============== -->
+<div class="overlay" id="ov-ackermann" data-overlay>
+  <div class="card">
+    <div class="card-header">
+      <div class="h-left">
+        <div class="icon-orb" style="background:radial-gradient(circle at 35% 30%, #fff, var(--violet) 60%, transparent);"></div>
+        <div>
+          <div class="eyebrow">Module 02 · Computability</div>
+          <h2>Ackermann — Recursion Beyond Primitive Loops</h2>
+        </div>
+      </div>
+      <button class="close-btn" data-close>✕</button>
+    </div>
+    <div class="card-body">
+      <div class="tabs">
+        <button class="tab active" data-target="ack-lab">Lab</button>
+        <button class="tab" data-target="ack-doc">Reference</button>
+      </div>
+
+      <div class="tab-pane active" id="ack-lab">
+
+        <!-- Inputs + heatmap -->
+        <div class="panel">
+          <div class="panel-title">
+            Interactive Heatmap <span class="badge">A(m,n)</span>
+          </div>
+          <div class="row" style="margin-bottom:12px;">
+            <div class="input-group">
+              <label>m</label>
+              <div class="stepper">
+                <button data-ack-m="-1">−</button>
+                <div class="val" id="ack-m">2</div>
+                <button data-ack-m="1">+</button>
+              </div>
+            </div>
+            <div class="input-group">
+              <label>n</label>
+              <div class="stepper">
+                <button data-ack-n="-1">−</button>
+                <div class="val" id="ack-n">3</div>
+                <button data-ack-n="1">+</button>
+              </div>
+            </div>
+            <div style="margin-left:auto; font-size:11px; letter-spacing:0.18em; text-transform:uppercase; color:var(--text-muted);">
+              <span id="ack-row">Multiplication</span>
+            </div>
+          </div>
+
+          <div class="ack-heatmap" id="ack-heatmap"></div>
+
+          <div class="stats" style="margin-top:14px;">
+            <div class="stat"><div class="lbl">Closed Form</div><div class="val" id="ack-closed">2n+3</div></div>
+            <div class="stat violet"><div class="lbl">A(m,n)</div><div class="val" id="ack-display">9</div></div>
+            <div class="stat amber"><div class="lbl">Recursive Calls</div><div class="val" id="ack-callcount">—</div></div>
+          </div>
+        </div>
+
+        <!-- Charts -->
+        <div class="grid-2">
+          <div class="panel">
+            <div class="panel-title">Growth · log<sub>10</sub> A(m,n)</div>
+            <div class="chart"><svg id="ack-growth" viewBox="0 0 560 230"></svg></div>
+          </div>
+          <div class="panel">
+            <div class="panel-title">Recursive Calls (no memo)</div>
+            <div class="chart"><svg id="ack-calls" viewBox="0 0 560 200"></svg></div>
+          </div>
+        </div>
+
+        <!-- Expansion trace -->
+        <div class="panel">
+          <div class="panel-title">Step-by-Step Expansion</div>
+          <div class="row" style="margin-bottom:10px;">
+            <button class="btn sm" id="ack-visualize">Visualize</button>
+            <button class="btn ghost sm" id="ack-step">Step</button>
+            <button class="btn ghost sm" id="ack-pause">Pause</button>
+            <button class="btn ghost sm" id="ack-reset">Reset</button>
+            <span id="ack-step-info" style="margin-left:auto; font-size:11px; color:var(--text-muted); letter-spacing:0.06em;"></span>
+          </div>
+          <div class="tree-container" id="ack-tree">
+            <div class="tree-line" style="color: var(--text-muted);">Press <code style="color:var(--teal);">Visualize</code> to expand the recursion tree.</div>
+          </div>
+          <div class="result-display" id="ack-result-wrap" style="display:none;">
+            A(<span id="ack-result-m">m</span>,<span id="ack-result-n">n</span>) =
+            <span class="v" id="ack-result">—</span>
+          </div>
+        </div>
+
+        <!-- Inverse Ackermann -->
+        <div class="panel">
+          <div class="panel-title">Inverse Ackermann α(n) <span class="badge">Tarjan Union-Find</span></div>
+          <p style="font-size:12.5px; color:var(--text-dim); line-height:1.6; margin-bottom:10px;">
+            <code>α(n) = min { m : A(m, m) ≥ n }</code> grows so slowly that for every <code>n</code> in our universe, <code>α(n) ≤ 4</code>.
+          </p>
+          <div class="scroll-x">
+            <table class="stirling-table" id="ack-inverse"></table>
+          </div>
+        </div>
+
+        <div class="formula-card">
+          <div class="ftitle">Definition</div>
+          A(0, n) = n + 1<br/>
+          A(m, 0) = A(m − 1, 1)<br/>
+          A(m, n) = A(m − 1, A(m, n − 1))
+        </div>
+      </div>
+
+      <div class="tab-pane" id="ack-doc">
+        <div class="md" id="ack-md"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============== NIM OVERLAY ============== -->
+<div class="overlay" id="ov-nim" data-overlay>
+  <div class="card">
+    <div class="card-header">
+      <div class="h-left">
+        <div class="icon-orb" style="background:radial-gradient(circle at 35% 30%, #fff, var(--amber) 60%, transparent);"></div>
+        <div>
+          <div class="eyebrow">Module 03 · Game Theory</div>
+          <h2>Nim — Sprague–Grundy Strategy Game</h2>
+        </div>
+      </div>
+      <button class="close-btn" data-close>✕</button>
+    </div>
+    <div class="card-body">
+      <div class="tabs">
+        <button class="tab active" data-target="nim-lab">Play</button>
+        <button class="tab" data-target="nim-doc">Reference</button>
+      </div>
+
+      <div class="tab-pane active" id="nim-lab">
+
+        <!-- Variant -->
+        <div class="panel">
+          <div class="panel-title">Variant</div>
+          <div class="variant-grid" id="nim-variants"></div>
+
+          <div class="row" style="justify-content:space-between;">
+            <div>
+              <div style="font-size:10px; letter-spacing:0.22em; text-transform:uppercase; color:var(--text-muted); margin-bottom:6px;">Difficulty</div>
+              <div class="diff-segment" id="nim-difficulty"></div>
+            </div>
+            <div style="text-align:right;">
+              <div style="font-size:10px; letter-spacing:0.22em; text-transform:uppercase; color:var(--text-muted); margin-bottom:6px;">Score · You · AI</div>
+              <div style="font-family:'SF Mono',monospace; font-size:18px; font-weight:600;" id="nim-score">0 · 0</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Configuration -->
+        <div class="panel">
+          <div class="panel-title">Configuration</div>
+          <div id="nim-config"></div>
+        </div>
+
+        <!-- Board -->
+        <div class="panel">
+          <div class="panel-title">Board</div>
+          <div class="turn-indicator" id="nim-turn"></div>
+          <div class="nim-board" id="nim-board"></div>
+
+          <div class="nim-controls">
+            <span style="font-size:10px; letter-spacing:0.18em; text-transform:uppercase; color:var(--text-muted);">Take</span>
+            <div class="input-group">
+              <div class="stepper">
+                <button data-nim-take="-1">−</button>
+                <div class="val" id="nim-take">1</div>
+                <button data-nim-take="1">+</button>
+              </div>
+            </div>
+            <button class="btn" id="nim-confirm">Confirm Move</button>
+            <button class="btn ghost sm" id="nim-hint">Hint</button>
+            <button class="btn ghost sm" id="nim-restart">Restart</button>
+            <span id="nim-hint-text" style="font-size:11px; letter-spacing:0.06em; color:var(--text-dim);"></span>
+          </div>
+
+          <div class="nim-log" id="nim-log"></div>
+          <div id="nim-end"></div>
+        </div>
+
+        <div class="formula-card">
+          <div class="ftitle">Sprague–Grundy</div>
+          A position is losing for the mover ⇔ XOR of all (Grundy) heap values = 0.<br/>
+          Classic: g(h) = h. &nbsp; Bounded(K): g(h) = h mod (K + 1).
+        </div>
+      </div>
+
+      <div class="tab-pane" id="nim-doc">
+        <div class="md" id="nim-md"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===================================================== -->
+<!-- Scripts -->
+<script src="md_render.js"></script>
+<script src="md_content.js"></script>
+<script>
+  // ---------- ATOM HOVER FREEZE & ORBITAL OPEN ----------
+  const atom = document.getElementById('atom');
+  // Freeze every ring whenever cursor is over the atom region.
+  // Use the atom container (not individual electrons) so all 3 stop together
+  // and there's no transitional jitter from animation-duration changes.
+  atom.addEventListener('pointerenter', () => atom.classList.add('frozen'));
+  atom.addEventListener('pointerleave', () => {
+    if (!document.body.classList.contains('overlay-open')) atom.classList.remove('frozen');
+  });
+
+  // Render markdown into doc panes
+  document.getElementById('stir-md').innerHTML = renderMarkdown(MD_CONTENT.stirling);
+  document.getElementById('ack-md').innerHTML  = renderMarkdown(MD_CONTENT.ackermann);
+  document.getElementById('nim-md').innerHTML  = renderMarkdown(MD_CONTENT.nim);
+
+  // Overlay open/close
+  document.querySelectorAll('[data-open]').forEach(el => {
+    el.addEventListener('click', e => {
+      e.stopPropagation();
+      const id = 'ov-' + el.dataset.open;
+      document.getElementById(id).classList.add('open');
+      atom.classList.add('frozen', 'dimmed');
+      document.body.classList.add('overlay-open');
+    });
+  });
+  document.querySelectorAll('[data-close]').forEach(b => b.addEventListener('click', closeAll));
+  document.querySelectorAll('[data-overlay]').forEach(ov => {
+    ov.addEventListener('click', e => { if (e.target === ov) closeAll(); });
+  });
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') closeAll(); });
+  function closeAll() {
+    document.querySelectorAll('.overlay.open').forEach(o => o.classList.remove('open'));
+    atom.classList.remove('frozen', 'dimmed');
+    document.body.classList.remove('overlay-open');
+  }
+
+  // Tabs (scoped per overlay)
+  document.querySelectorAll('.overlay').forEach(ov => {
+    ov.querySelectorAll('.tab').forEach(t => {
+      t.addEventListener('click', () => {
+        const target = t.dataset.target;
+        ov.querySelectorAll('.tab').forEach(x => x.classList.remove('active'));
+        ov.querySelectorAll('.tab-pane').forEach(x => x.classList.remove('active'));
+        t.classList.add('active');
+        ov.querySelector('#' + target).classList.add('active');
+      });
+    });
+  });
+</script>
+
+<!-- Module scripts -->
+<script src="stirling.js"></script>
+<script src="ackermann.js"></script>
+<script src="nim.js"></script>
+
+</body>
+</html>
