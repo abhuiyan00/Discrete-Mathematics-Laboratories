@@ -1,11 +1,12 @@
 # Discrete-Mathematics-Laboratories
 Solutions and discussions for Discrete Mathematics Laboratories for Masters.
 
-This repository currently contains three labs:
+This repository currently contains four labs:
 
 1. Lab 1: Max-Cut optimization using a multi-start local search heuristic
 2. Lab 2: Asymmetric cryptography (RSA) implementation and classical factorization attacks
 3. Lab 3: Set theory framework with logic, characteristic functions, and an optional set-based job recommender
+4. Lab 4: Complexity, Growth and Interactive Explorations (Ackermann, Nim, Stirling)
 
 ## Lab 1: Max-Cut Problem
 
