@@ -7,7 +7,7 @@ This repository currently contains five labs:
 2. Lab 2: Asymmetric cryptography (RSA) implementation and classical factorization attacks
 3. Lab 3: Set theory framework with logic, characteristic functions, and an optional set-based job recommender
 4. Lab 4: Complexity, Growth and Interactive Explorations (Ackermann, Nim, Stirling)
-5. Lab 5: SentinelNet — graph theory case study for an Iberian monitoring network
+5. Lab 5: Graph Theory web case studies (SentinelNet + Q-HYDRO Wroclaw)
 
 ## Lab 1: Max-Cut Problem
 
@@ -139,26 +139,36 @@ start index.html
 ### Conclusion
 Lab 4 ties asymptotic analysis and algorithmic growth to concrete tools and interactive experiments. The Ackermann explorer shows how a deceptively simple recursion can escape primitive recursion; Nim connects game theory to algorithmic strategy and UI design; Stirling's approximation demonstrates why asymptotic estimates are indispensable in combinatorics and complexity analysis.
 
-## Lab 5: SentinelNet — Graph Theory in an Environmental Monitoring Network
+## Lab 5: Graph Theory Web Case Studies
 
 ### Objective
-Build an interactive, data-rich graph theory case study around a realistic Iberian environmental monitoring network.
+Build interactive, data-rich graph theory case studies that apply core algorithms to realistic infrastructure scenarios.
 
 ### Scope of Implementation
-The lab ships as a static single-page web experience that contains:
-1. A 54-node, 95-edge dataset spanning air quality, weather, fire, hydro, gateway, and satellite nodes
-2. A map-based graph visualization with link types (LoRaWAN, cellular, fiber, satellite, mesh)
-3. Algorithmic walkthroughs: BFS, DFS, Dijkstra, Bellman-Ford, A*, MST (Kruskal), bridges, articulation points, and connected components
-4. A cost and references panel that documents the data sources behind the scenario
+The lab now includes two browser-based projects under `lab5_GraphTheory`:
+
+1. **SentinelNet**
+	- Environmental monitoring network case study for an Iberian region
+	- Multi-node, weighted graph with interactive map-style visualization
+	- Algorithm walkthroughs including traversal, shortest paths, spanning trees, and resilience analysis
+
+2. **Q-HYDRO Wroclaw**
+	- Funding-proposal style scenario for a Lower Silesia sensing network
+	- 25-node weighted graph with seven algorithmic lenses (BFS, Prim MST, Tarjan, Dijkstra, recovery heuristics, TSP approximation, planarity checks)
+	- In-browser computed metrics and interactive failure/routing exploration
 
 ### How to Run
-Open the HTML file directly in a browser (no build step required):
+Both projects are static web apps (no build step required):
 
 ```powershell
 # from the repo root
-cd "d:\Git area (testing)\Discrete-Mathematics-Laboratories\lab5_SentinelNet"
+cd "d:\Git area (testing)\Discrete-Mathematics-Laboratories\lab5_GraphTheory\SentinelNet"
 start SentinelNet.html
+
+# Q-HYDRO Wroclaw
+cd "d:\Git area (testing)\Discrete-Mathematics-Laboratories\lab5_GraphTheory\Q-HYDRO Wrocław"
+start "Q-HYDRO Wrocław.html"
 ```
 
 ### Conclusion
-Lab 5 connects core graph algorithms to a realistic monitoring network with interpretable data, visual explanations, and operational trade-offs. It is designed to reinforce both algorithmic intuition and the practical meaning of connectivity, routing, and resilience in real systems.
+Lab 5 connects core graph algorithms to practical network-design scenarios through two complementary case studies. Together, they reinforce algorithmic intuition and the real-world meaning of connectivity, routing, robustness, and cost-aware planning.

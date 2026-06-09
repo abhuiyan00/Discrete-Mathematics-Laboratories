@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<meta name="description" content="Q-HYDRO Wrocław — a 25-node quantum-gravimetric sensor network for Lower Silesia, modelled and optimised live with graph theory (BFS, MST, Tarjan, Dijkstra, TSP) and the Odra 5 quantum computer."/>
+<title>Q-HYDRO WROCŁAW — Quantum-enhanced subsurface monitoring for Lower Silesia</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<link rel="stylesheet" href="css/styles.css"/>
+</head>
+<body>
+<div class="app">
+
+  <!-- ============================ NAV ============================ -->
+  <nav class="nav">
+    <div class="nav-brand">
+      <b>Q-HYDRO WROCŁAW</b>
+      Quantum-enhanced gravimetric network
+      <span class="tag">Government pilot proposal</span>
+    </div>
+    <ol>
+      <li><a href="#cover"><span class="n">00</span>Cover</a></li>
+      <li><a href="#summary"><span class="n">01</span>Executive summary</a></li>
+      <li><a href="#problem"><span class="n">02</span>The problem</a></li>
+      <li><a href="#network"><span class="n">03</span>The network</a></li>
+      <li><a href="#lab"><span class="n">04</span>Graph-theory lab</a></li>
+      <li><a href="#quantum"><span class="n">05</span>Quantum advantage</a></li>
+      <li><a href="#budget"><span class="n">06</span>Budget &amp; finance</a></li>
+      <li><a href="#commercial"><span class="n">07</span>Commercialisation</a></li>
+      <li><a href="#roadmap"><span class="n">08</span>Roadmap &amp; the ask</a></li>
+    </ol>
+    <div class="nav-foot">
+      Politechnika Wrocławska<br/>WCSS · Odra 5<br/>v1.0 — 30 May 2026
+    </div>
+  </nav>
+
+  <main class="main">
+
+    <!-- ============================ COVER ============================ -->
+    <section id="cover" class="cover">
+      <div class="cover-top">
+        <span>Lower Silesia · Dolnośląskie · PL</span>
+        <span>Confidential — for public-sector review</span>
+      </div>
+      <div class="cover-mid">
+        <h1>Seeing<br/>underground.
+          <span class="sub">A quantum-gravimetric sensor network for subsurface risk, modelled and optimised with graph theory.</span>
+        </h1>
+        <p class="cover-lede">A twenty-five-node mesh of quantum and MEMS gravimeters across a 6,000&nbsp;km² belt of post-mining and flood risk — a living graph, continuously routed, hardened and maintained with algorithms run on Poland's first quantum computer at Politechnika Wrocławska.</p>
+        <div class="cover-strip">
+          <div class="cell"><div class="big">25</div><div class="lab">Sensor nodes</div></div>
+          <div class="cell"><div class="big">6,000 km²</div><div class="lab">Monitored area</div></div>
+          <div class="cell"><div class="big">1 µGal</div><div class="lab">Gravity resolution</div></div>
+          <div class="cell"><div class="big" id="cover-ask">€3.46M</div><div class="lab">3-yr pilot ask</div></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================ SUMMARY ============================ -->
+    <section id="summary" class="sec">
+      <div class="kicker" data-n="01"><span>Executive summary</span><span class="rule"></span></div>
+      <h2>A monitoring network that <b>repairs and routes itself</b>.</h2>
+      <p class="lede">Lower Silesia sits above thousands of kilometres of undocumented mine workings and a river basin that swings between flood and drought. Q-HYDRO WROCŁAW deploys a mesh of absolute quantum gravimeters that measures tiny changes in underground mass — water migration, voids, subsidence — <b>before they reach the surface</b>.</p>
+      <p>The network is treated as a weighted, undirected graph. Classical algorithms handle real-time discovery, routing and connectivity; the genuinely hard combinatorial problems — placement, redundancy augmentation, calibration routing — are offloaded as QUBO instances to the <b>Odra 5</b> quantum computer at the Wrocław Centre for Networking and Supercomputing. Every claim in this proposal is computed live on the real network in section&nbsp;04.</p>
+      <div class="figrow">
+        <div class="f"><div class="fig-n" id="sum-density">0.14</div><div class="fig-l">Graph density — deliberately sparse, energy-lean</div></div>
+        <div class="f"><div class="fig-n" id="sum-ap">3</div><div class="fig-l">Articulation points hardened to 2-connectivity</div></div>
+        <div class="f"><div class="fig-n">20%</div><div class="fig-l">Shorter maintenance route, quantum-optimised</div></div>
+        <div class="f"><div class="fig-n">&lt; 5 s</div><div class="fig-l">Automatic re-route after a link failure</div></div>
+      </div>
+    </section>
+
+    <!-- ============================ PROBLEM ============================ -->
+    <section id="problem" class="sec">
+      <div class="kicker" data-n="02"><span>The problem</span><span class="rule"></span></div>
+      <h2>Invisible risk, <b>measured reactively</b>.</h2>
+      <div class="grid2 tight">
+        <p class="lede">The region's industrial legacy and a warming climate create a dual subsurface threat. Today it is watched with sparse point measurements that report damage after it happens — not before.</p>
+        <p>Absolute gravimetry detects the mass change that <em>precedes</em> a sinkhole or a groundwater collapse. Quantum sensors make that measurement continuous, drift-free and field-deployable for the first time — but a single instrument only sees one point. The value is in the <b>network</b>, and a network is only as good as its topology.</p>
+      </div>
+      <div class="cards">
+        <div class="card"><div class="ix">01 — MINING</div><h3>Post-mining voids</h3>
+          <p>Over 5,000&nbsp;km of undocumented workings under Wałbrzych and the Legnica–Głogów copper district produce sudden sinkholes and shaft instability. KGHM monitors microgravity around active shafts; legacy voids go unwatched.</p></div>
+        <div class="card"><div class="ix">02 — WATER</div><h3>Odra basin swings</h3>
+          <p>The basin alternates between catastrophic flooding and agricultural drought. Piezometers sample points, not storage; basin-scale groundwater change is invisible until wells run dry or levees fail.</p></div>
+        <div class="card"><div class="ix">03 — METHOD</div><h3>Reactive, low-resolution</h3>
+          <p>Existing networks are placed ad-hoc, leaving radio dead zones and single points of failure. There is no continuous 4-D density map and no optimisation of where the next sensor should go.</p></div>
+      </div>
+      <div class="figrow">
+        <div class="f"><div class="fig-n">5,000+ km</div><div class="fig-l">Undocumented mine workings</div></div>
+        <div class="f"><div class="fig-n">2024</div><div class="fig-l">Odra basin drought + flood in one decade's span</div></div>
+        <div class="f"><div class="fig-n">$73→135M</div><div class="fig-l">Transportable quantum-gravimeter market, 2024→2031</div></div>
+      </div>
+    </section>
+
+    <!-- ============================ NETWORK ============================ -->
+    <section id="network" class="sec sec-wide">
+      <div class="kicker" data-n="03"><span>The network</span><span class="rule"></span></div>
+      <div style="max-width:var(--maxw)">
+        <h2>Twenty-five real sites, <b>one graph</b>.</h2>
+        <div class="grid2 tight">
+          <p class="lede">Eighteen absolute quantum gravimeters — seventeen in the field plus a reference unit at the Wrocław hub — and seven MEMS interpolation units sit at genuine Lower Silesian locations. Two nodes within radio range share an <b>edge</b>.</p>
+          <p>LoRaWAN forms the low-power local mesh (links under ~31&nbsp;km); a handful of curated 5G / fibre back-haul links bridge the long gaps between regional clusters. The result is a connected but <b>sparse</b> graph — cheap to run, but with weak points we must find and fix. Every figure below is computed from these coordinates.</p>
+        </div>
+        <div class="figrow" style="margin-top:30px">
+          <div class="f"><div class="fig-n mono">|V| = 25</div><div class="fig-l">Vertices (sensor sites)</div></div>
+          <div class="f"><div class="fig-n mono" id="net-e">|E| = 43</div><div class="fig-l">Edges (radio links)</div></div>
+          <div class="f"><div class="fig-n mono" id="net-deg">3.4</div><div class="fig-l">Mean degree</div></div>
+          <div class="f"><div class="fig-n mono" id="net-km">994 km</div><div class="fig-l">Total link length</div></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================ LAB ============================ -->
+    <section id="lab" class="lab sec-wide">
+      <div class="lab-head">
+        <div class="kicker" data-n="04"><span>Graph-theory laboratory</span><span class="rule"></span></div>
+        <h2>The network, <b>under seven lenses</b>.</h2>
+        <p class="lede">One real map of Lower Silesia. Pick a lens to watch a graph algorithm run live — discovery, backbone, weak points, routing, failure recovery, maintenance and layout. <b>Click sensors</b> to drive the routing and failure lenses yourself — in Failure &amp; Fix, stack several outages (even the hub) to trigger compound cuts and watch the cheapest multi-link repair.</p>
+      </div>
+      <div class="console">
+        <div class="rail">
+          <div class="rail-h">Graph-theory lenses</div>
+          <div id="lens-rail"></div>
+        </div>
+        <div class="stage">
+          <div id="map">
+            <div class="maptag">LOWER SILESIA · LIVE GRAPH</div>
+            <div class="legend">
+              <div class="li"><span class="dotk h" style="border-radius:2px;transform:rotate(45deg)"></span> Wrocław hub · Odra 5</div>
+              <div class="li"><span class="dotk"></span> AQG (quantum)</div>
+              <div class="li"><span class="dotk h"></span> MEMS (relative)</div>
+              <div class="li"><span class="sw thin"></span> LoRa mesh link</div>
+              <div class="li"><span class="sw dash"></span> 5G / fibre back-haul</div>
+            </div>
+          </div>
+          <div class="readout">
+            <div>
+              <h4><span id="lab-title">Sensor discovery</span><span class="badge" id="lab-badge">BFS</span></h4>
+              <p class="ex" id="lab-explain"></p>
+            </div>
+            <div>
+              <div class="metrics" id="lab-metrics"></div>
+              <div class="controls" id="lab-controls"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- inventory -->
+      <div class="lab-head" style="padding-top:54px;padding-bottom:64px">
+        <h3 style="margin-bottom:18px">Sensor inventory</h3>
+        <p class="muted" style="font-size:13px;margin:-8px 0 18px">24 field sensors (17 AQG · 7 MEMS); the Wrocław hub adds an 18th, reference AQG. <b>Click any row to locate it on the live map above.</b></p>
+        <table class="data">
+          <thead><tr><th>ID</th><th>Location</th><th>Type</th><th>Primary risk</th><th class="num">Degree</th><th class="num">Elev.</th></tr></thead>
+          <tbody id="inv-body"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- ============================ QUANTUM ============================ -->
+    <section id="quantum" class="sec">
+      <div class="kicker" data-n="05"><span>Quantum advantage</span><span class="rule"></span></div>
+      <h2>Where <b>Odra 5</b> earns its place.</h2>
+      <div class="grid2 tight">
+        <p class="lede">Poland's first quantum computer — a superconducting <b>IQM machine named “Odra 5”</b> — already runs at the Wrocław Centre for Networking and Supercomputing, with access to larger 20- and 50-qubit systems. Q-HYDRO is a concrete, public-value workload for it.</p>
+        <p>Routing and discovery stay classical — Dijkstra and BFS are fast and exact. The combinatorial problems that scale badly — choosing redundancy links for 2-connectivity, optimal placement, calibration tours — are formulated as <b>QUBO</b> and solved with QAOA. This is a 12–18 month head start no classical-only competitor can match, on hardware that is already paid for.</p>
+      </div>
+
+      <div class="qcompare flip">
+        <div>
+          <div class="h">Classical baseline</div>
+          <p class="muted" style="font-size:14px">Greedy redundancy heuristic — adds links by rule of thumb, no cost guarantee. Nearest-neighbour calibration tour.</p>
+          <div style="margin-top:18px">
+            <div class="mono" style="font-size:13px">Maintenance loop · 900 km</div>
+            <div class="qbar"><i style="width:100%"></i></div>
+          </div>
+        </div>
+        <div class="q">
+          <div class="h">Odra 5 · QUBO / QAOA</div>
+          <p class="muted" style="font-size:14px">Minimum-cost 2-connectivity augmentation and tour optimisation solved as one combinatorial program — provably near-optimal.</p>
+          <div style="margin-top:18px">
+            <div class="mono" style="font-size:13px">Maintenance loop · 718 km</div>
+            <div class="qbar"><i style="width:79.8%"></i></div>
+          </div>
+        </div>
+      </div>
+
+      <h3 style="margin-top:14px">Problem-to-hardware mapping</h3>
+      <table class="data">
+        <thead><tr><th>Graph problem</th><th>Classical method</th><th>Quantum formulation</th><th>Status</th></tr></thead>
+        <tbody>
+          <tr><td>Redundancy augmentation (2-connectivity)</td><td class="note-cell">Brute force / heuristic</td><td>Min-cost QUBO → QAOA</td><td class="mono">PHASE 1</td></tr>
+          <tr><td>Optimal sensor placement</td><td class="note-cell">Greedy / ILP</td><td>Coverage QUBO → VQE</td><td class="mono">PHASE 1</td></tr>
+          <tr><td>Calibration route (TSP)</td><td class="note-cell">Nearest-neighbour / LKH</td><td>QAOA (≤ 20 nodes)</td><td class="mono">PHASE 2</td></tr>
+          <tr><td>Real-time routing</td><td class="note-cell">Dijkstra (kept classical)</td><td>Quantum kernel — future</td><td class="mono">FUTURE</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <!-- ============================ BUDGET ============================ -->
+    <section id="budget" class="sec sec-wide">
+      <div style="max-width:var(--maxw)">
+        <div class="kicker" data-n="06"><span>Budget &amp; finance</span><span class="rule"></span></div>
+        <h2>A <b>lean, phased</b> capital ask.</h2>
+        <p class="lede">Direct costs for the 3-year pilot and scale-up. Quantum compute is subsidised through the university's academic allocation, removing the single most expensive line a private actor would face.</p>
+
+        <table class="data" style="margin-top:28px">
+          <thead><tr><th>Line item</th><th class="num">Unit (€)</th><th class="num">Qty</th><th class="num">Total (€)</th><th>Note</th></tr></thead>
+          <tbody id="budget-body"></tbody>
+          <tfoot><tr><td>Total direct costs</td><td class="num"></td><td class="num"></td><td class="num" id="budget-total">—</td><td></td></tr></tfoot>
+        </table>
+
+        <div class="grid2" style="margin-top:48px">
+          <div class="chart-wrap">
+            <h3>Market — transportable quantum gravimeters</h3>
+            <div class="chart-cap">Global value, US$ millions · CAGR 9.2% (2024–2031)</div>
+            <div id="market-chart"></div>
+          </div>
+          <div class="chart-wrap">
+            <h3>Contracted DaaS revenue ramp</h3>
+            <div class="chart-cap">█ Data API &nbsp;&nbsp; ▨ Risk-alert tier · EUR / year</div>
+            <div id="revenue-chart"></div>
+          </div>
+        </div>
+        <p style="margin-top:24px" class="muted">Cumulative contracted revenue reaches <b>≈ €4.5M by Year 5</b>, with break-even on direct capital during Year 5 — before counting the far larger public value of <em>avoided</em> loss: a single prevented shaft incident or levee failure dwarfs the network's cost.</p>
+      </div>
+    </section>
+
+    <!-- ============================ COMMERCIAL ============================ -->
+    <section id="commercial" class="sec">
+      <div class="kicker" data-n="07"><span>Commercialisation &amp; risk</span><span class="rule"></span></div>
+      <h2>A hardware-enabled <b>data service</b>.</h2>
+      <div class="cards">
+        <div class="card"><div class="ix">CUSTOMER 01</div><h3>KGHM Polska Miedź</h3>
+          <p>Real-time microgravity around active and legacy copper shafts to anticipate collapse. Tier-2 risk-alert contract.</p></div>
+        <div class="card"><div class="ix">CUSTOMER 02</div><h3>Wody Polskie</h3>
+          <p>Basin-scale groundwater storage and flood-risk feeds for the Odra authority. Tier-1 data-API contract.</p></div>
+        <div class="card"><div class="ix">CUSTOMER 03</div><h3>Insurers (PZU)</h3>
+          <p>Quantified geological risk for premium setting and parametric cover. Tier-2 predictive alerts.</p></div>
+      </div>
+      <div class="grid2" style="margin-top:34px">
+        <div>
+          <h3>Revenue model</h3>
+          <p>Two tiers, both recurring: a <b>Data API</b> at €25k / client / year for raw gravity-anomaly feeds, and a <b>Risk-Alert</b> tier at €100k / year for AI-predicted sinkhole and flood warnings derived from the 4-D density map.</p>
+        </div>
+        <div>
+          <h3>Competitive moat</h3>
+          <p>Subsidised access to Odra 5 for NP-hard network optimisation, plus a proprietary graph database linking 4-D gravity data to specific infrastructure. The combination is difficult to replicate without both the hardware relationship and the deployed sensor base.</p>
+        </div>
+      </div>
+      <div class="grid2 tight" style="margin-top:34px">
+        <div>
+          <h3>Engineering risk — and the answer</h3>
+          <p><b>Single points of failure.</b> Tarjan's scan finds the cut vertices; we add minimum-cost redundancy links (section 04) to reach 2-connectivity, tolerating ≥ 50% single-node loss on critical paths.</p>
+          <p><b>Non-planar cabling.</b> Where buried fibre would force a K₃,₃ crossing in the Wałbrzych corridor, we separate links vertically — planarising the layout and cutting trenching ~18%.</p>
+        </div>
+        <div>
+          <h3>Operational risk</h3>
+          <p><b>Link loss.</b> Dijkstra rebuilds the shortest-path tree in under 5 s; a failing node's distance goes to ∞ and traffic switches to a secondary path automatically.</p>
+          <p><b>Calibration cost.</b> Quarterly rubidium-laser alignment is routed as a TSP, quantum-optimised to ~20% less driving — a recurring saving on every technician loop.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================ ROADMAP ============================ -->
+    <section id="roadmap" class="sec">
+      <div class="kicker" data-n="08"><span>Roadmap &amp; the ask</span><span class="rule"></span></div>
+      <h2>From <b>simulation to scale</b>.</h2>
+      <div class="timeline" style="margin-top:30px">
+        <div class="tl"><div class="ph">Year 1 · H1</div><h3>Topology &amp; quantum algorithms</h3>
+          <p>Finalise placement from mining-hazard and station data; build the QUBO augmentation model on Odra 5; stand up the graph dashboard and API.</p></div>
+        <div class="tl"><div class="ph">Year 1 · H2</div><h3>Pilot — Legnica–Głogów copper basin</h3>
+          <p>Deploy the first cluster of AQG + MEMS units with KGHM; validate microgravity anomaly detection against known shaft activity.</p></div>
+        <div class="tl"><div class="ph">Year 2</div><h3>Regional build-out</h3>
+          <p>Extend to the Sudety post-mining belt and Odra flood corridor; harden every cut vertex to 2-connectivity; first Wody Polskie data contract.</p></div>
+        <div class="tl"><div class="ph">Year 3</div><h3>Scale &amp; commercialise</h3>
+          <p>Full 25-node network live; insurance-tier alerts; package the platform for export to other Central-European mining regions.</p></div>
+      </div>
+
+      <div class="invert">
+        <div class="askl">The ask — 3-year pilot &amp; scale-up</div>
+        <div class="ask" id="ask-figure">€3.46M</div>
+        <p style="margin-top:18px">We request seed funding to proceed with Phase&nbsp;1 — network simulation and quantum-algorithm development on Odra 5 — followed by staged hardware deployment. The result is a robust, self-healing, quantum-advantaged monitoring network that sees Lower Silesia's subsurface risk before it surfaces.</p>
+      </div>
+    </section>
+
+    <div class="footer">
+      <b>Q-HYDRO WROCŁAW</b> · academic partner: Politechnika Wrocławska &amp; Wrocław Centre for Networking and Supercomputing (IQM “Odra 5”, 5-qubit, installed 2025; 20-/50-qubit access via IQM Aalto).<br/>
+      Hardware reference: Exail Absolute Quantum Gravimeter (rubidium-87, 1 µGal sensitivity / stability). Network coordinates are genuine Lower Silesian locations; all graph metrics are computed live in-browser.<br/>
+      Market: transportable quantum-gravimeter segment, 2024–2031 published estimates (QYResearch / Valuates), CAGR ≈ 9.2%.<br/>
+      Map © OpenStreetMap contributors, © CARTO. Figures are planning estimates for review, 30 May 2026.
+    </div>
+
+  </main>
+</div>
+
+<script src="js/data.js"></script>
+<script src="js/graph-algorithms.js"></script>
+<script src="js/map.js"></script>
+<script src="js/app.js"></script>
+<script>
+  // fill in computed network figures
+  document.addEventListener('DOMContentLoaded', () => {
+    const s = QH.stats;
+    const set = (id,v)=>{const e=document.getElementById(id); if(e) e.textContent=v;};
+    set('net-e','|E| = '+s.E); set('net-deg',s.avgDeg); set('net-km',s.totalKm+' km');
+    set('sum-density',s.density); set('cover-ask','€'+(QH.budgetTotal/1e6).toFixed(2)+'M');
+    const a = QG.articulation(); set('sum-ap',a.ap.length);
+  });
+</script>
+</body>
+</html>
