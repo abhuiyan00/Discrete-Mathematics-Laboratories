@@ -12,13 +12,15 @@
 <body>
   <div id="root"></div>
 
-  <script src="https://unpkg.com/react@18.3.1/umd/react.development.js" crossorigin="anonymous"></script>
-  <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" crossorigin="anonymous"></script>
-  <script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" crossorigin="anonymous"></script>
+  <!-- React vendored locally (production UMD) so the page runs offline, straight
+       from file://, with no CDN and no runtime Babel. sn-app.js is precompiled
+       from sn-app.jsx (see the build note at the top of sn-app.js). -->
+  <script src="vendor/react.production.min.js"></script>
+  <script src="vendor/react-dom.production.min.js"></script>
 
   <script src="sn-data.js"></script>
   <script src="sn-concepts.js"></script>
   <script src="sn-algo.js"></script>
-  <script type="text/babel" data-presets="env,react" src="sn-app.jsx"></script>
+  <script src="sn-app.js"></script>
 </body>
 </html>
