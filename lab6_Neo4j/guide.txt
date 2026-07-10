@@ -1,0 +1,139 @@
+===========================================================================
+ LAB 6 - PAWLAK INFORMATION SYSTEM IN NEO4J
+ FULL GUIDE - START TO FINISH (fresh start, nothing assumed)
+===========================================================================
+
+---------------------------------------------------------------------------
+ 0. WHAT YOU ARE BUILDING
+---------------------------------------------------------------------------
+A Pawlak Information System  S = (U, A)  as a Neo4j graph.
+  U = objects     = 39 countries (rows of global_finance.csv)
+  A = attributes  = 25 data columns
+  value function  = stored on edge: (:Object)-[:HAS_VALUE {value}]->(:Attribute)
+
+The graph is BIPARTITE: Object nodes one side, Attribute nodes other side,
+every value is an edge between an object and an attribute.
+
+Optional Task 3 (object groups) is also built:
+  (:Object country) -[:BELONGS_TO]-> (:Group rating-grade)
+                    -[:BELONGS_TO]-> (:Group rating-class)
+  e.g.  Germany -> AAA -> Investment Grade
+
+FILES in this folder:
+  global_finance.csv   the dataset (space-free, ready for LOAD CSV)
+  import.cypher        builds the whole graph
+  queries.cypher       all report queries (Q0-Q6)
+  guide.txt            this file
+
+===========================================================================
+ PART A - SETUP (do once)
+===========================================================================
+
+STEP 1.  Open Neo4j Desktop. Create / start a LOCAL instance.
+         (Left sidebar -> Local instances -> create -> set a password -> Start)
+         A clean empty instance is best -> clean schema screenshots.
+
+STEP 2.  Put the CSV where Neo4j can read it (the "import" folder).
+         Left sidebar -> Local instances -> your instance -> "..." menu
+            -> Open folder -> Import
+         A normal File Explorer window opens on a folder called "import".
+         COPY global_finance.csv from
+            D:\PWR II\Discrete Mathematics\Labs\tst\lab6\datasets\
+         and PASTE it into that "import" folder.
+         (No button to click - it just needs to sit in that folder.)
+
+         If "Open folder" is missing, the import folder is usually:
+            C:\Users\<you>\.Neo4jDesktop2\Data\dbmss\dbms-XXXX\import
+
+STEP 3.  Left sidebar -> Query.  This opens the Cypher editor where you
+         type and Run commands. (NOT the "Import" tool - ignore that one,
+         it makes you draw the model by hand. We use Cypher scripts.)
+
+===========================================================================
+ PART B - BUILD THE GRAPH
+===========================================================================
+
+STEP 4.  (Only if the DB is NOT empty) wipe old data first:
+
+            MATCH (n) CALL (n) { DETACH DELETE n } IN TRANSACTIONS OF 5000 ROWS;
+
+         Check it is empty:
+            MATCH (n) RETURN count(n) AS total;     // must be 0
+
+STEP 5.  Open import.cypher, copy ALL of it, paste into the Query editor,
+         press Run (Ctrl+Enter).
+         Expected: ~80 nodes (39 Object + 25 Attribute + 16 Group) and
+         975 HAS_VALUE relationships created.
+
+         If you see RED error "Couldn't load file global_finance.csv":
+         the CSV is in the wrong instance's import folder -> redo STEP 2
+         for the instance you actually started.
+
+STEP 6.  Verify the build:
+            MATCH (o:Object)    RETURN count(o);    // must be 39
+            MATCH (a:Attribute) RETURN count(a);    // must be 25
+
+===========================================================================
+ PART C - THE 5 CORE QUERIES + SCREENSHOTS (the report deliverable)
+===========================================================================
+Run each block from queries.cypher SEPARATELY: paste one, Run, screenshot,
+next. (Pasting the whole file splits it into many small editor cards - that
+is normal; run them one at a time.)
+
+  CYPHER 1 - SCHEMA
+     CALL db.schema.visualization();
+     >> SCREENSHOT 1 = graph schema (labels Object/Attribute/Group +
+        relations HAS_VALUE/BELONGS_TO). This is the "schema" deliverable.
+
+  CYPHER 2 - COUNT OBJECTS  |U|
+     MATCH (o:Object) RETURN count(o) AS object_count;
+     >> SCREENSHOT 2 = result showing 39.
+
+  CYPHER 3 - COUNT ATTRIBUTES  |A|
+     MATCH (a:Attribute) RETURN count(a) AS attribute_count;
+     >> SCREENSHOT 3 = result showing 25.
+
+  CYPHER 4 - ALL ATTRIBUTE VALUES OF ONE OBJECT
+     MATCH (o:Object {id:'United States'})-[r:HAS_VALUE]->(a:Attribute)
+     RETURN a.name AS attribute, r.value AS value ORDER BY attribute;
+     >> SCREENSHOT 4 = United States value table (25 rows).
+     (Optional Q3b = same as a star GRAPH picture -> SCREENSHOT 5.)
+
+  CYPHER 5 - OBJECTS SATISFYING CONDITIONS
+     MATCH (o:Object)-[r1:HAS_VALUE]->(:Attribute {name:'Credit_Rating'})
+     MATCH (o)-[r2:HAS_VALUE]->(:Attribute {name:'GDP_Growth_Rate_Percent'})
+     WHERE r1.value='AAA' AND toFloat(r2.value)>2.0
+     RETURN o.id AS country, r1.value AS credit_rating, r2.value AS gdp_growth
+     ORDER BY gdp_growth DESC;
+     >> SCREENSHOT 6 = countries with AAA rating AND GDP growth > 2%.
+
+===========================================================================
+ PART D - OPTIONAL TASK 3 (object groups) - 2 EXTRA SCREENSHOTS
+===========================================================================
+
+  CYPHER 6 - GROUP HIERARCHY PICTURE
+     MATCH path=(o:Object)-[:BELONGS_TO]->(:Group)-[:BELONGS_TO]->(:Group)
+     RETURN path;
+     >> SCREENSHOT 7 = country -> grade -> class hierarchy graph.
+
+  CYPHER 7 - RETRIEVE OBJECTS THROUGH THE GROUP STRUCTURE
+     MATCH (o:Object)-[:BELONGS_TO]->(grade:Group)
+           -[:BELONGS_TO]->(cls:Group {name:'Investment Grade'})
+     RETURN cls.name, grade.name, collect(o.id) ORDER BY grade.name;
+     >> SCREENSHOT 8 = all Investment-Grade countries grouped by rating.
+
+===========================================================================
+ SCREENSHOT CHECKLIST  (save as screenshot1.png ... screenshot8.png here)
+===========================================================================
+  [1] schema visualization        (CYPHER 1)
+  [2] object count = 38            (CYPHER 2)
+  [3] attribute count = 25         (CYPHER 3)
+  [4] one object's value table     (CYPHER 4)
+  [5] one object star graph        (Q3b)         <- optional, looks good
+  [6] objects matching conditions  (CYPHER 5)
+  [7] group hierarchy graph        (CYPHER 6)
+  [8] objects via group structure  (CYPHER 7)
+
+When all are in this folder, say "screenshots ready" -> I build the LaTeX
+report.
+===========================================================================
