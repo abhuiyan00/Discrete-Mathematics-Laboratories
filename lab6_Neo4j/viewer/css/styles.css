@@ -1,0 +1,134 @@
+/* Lab 6 — Pawlak Information System viewer. Dark, graph-database aesthetic.
+   No web fonts / no CDN so it runs fully offline from file://. */
+
+:root {
+  --bg: #0d1017;
+  --panel: #151a22;
+  --panel-2: #1b212b;
+  --border: #262d38;
+  --text: #e6edf3;
+  --dim: #8b98a5;
+  --faint: #5b6672;
+
+  --object: #34d3c0;   /* teal   — :Object     */
+  --attr: #f0a53e;     /* amber  — :Attribute  */
+  --grade: #a78bfa;    /* violet — :Group grade */
+  --class: #f472b6;    /* pink   — :Group class */
+  --invest: #4ade80;   /* green  — Investment Grade */
+  --spec: #fb7185;     /* red    — Speculative Grade */
+
+  --mono: ui-monospace, "Cascadia Code", "JetBrains Mono", Consolas, "Courier New", monospace;
+  --sans: system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+}
+
+* { box-sizing: border-box; }
+html, body { margin: 0; height: 100%; }
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--sans);
+  font-size: 15px;
+  line-height: 1.5;
+}
+
+/* ---------- header ---------- */
+.topbar {
+  display: flex; align-items: baseline; gap: 16px; flex-wrap: wrap;
+  padding: 18px 26px; border-bottom: 1px solid var(--border);
+  background: linear-gradient(180deg, #11161f, #0d1017);
+}
+.brand { font-weight: 700; letter-spacing: .3px; }
+.brand .dot { color: var(--object); }
+.title { font-size: 1.35rem; font-weight: 700; margin: 0; }
+.subtitle { color: var(--dim); font-size: .9rem; }
+.subtitle code { color: var(--object); font-family: var(--mono); }
+
+/* ---------- stat strip ---------- */
+.stats { display: flex; flex-wrap: wrap; gap: 10px; padding: 16px 26px; border-bottom: 1px solid var(--border); }
+.stat {
+  background: var(--panel); border: 1px solid var(--border); border-radius: 10px;
+  padding: 10px 16px; min-width: 120px;
+}
+.stat b { font-size: 1.5rem; display: block; font-variant-numeric: tabular-nums; }
+.stat span { color: var(--dim); font-size: .78rem; text-transform: uppercase; letter-spacing: .5px; }
+.stat.obj b { color: var(--object); }
+.stat.att b { color: var(--attr); }
+.stat.val b { color: var(--text); }
+.stat.grp b { color: var(--grade); }
+
+/* ---------- layout ---------- */
+.layout { display: grid; grid-template-columns: 300px 1fr; min-height: calc(100vh - 150px); }
+.sidebar { border-right: 1px solid var(--border); padding: 18px; background: var(--panel); }
+.sidebar h3 { font-size: .72rem; text-transform: uppercase; letter-spacing: 1px; color: var(--faint); margin: 8px 4px 10px; }
+.qbtn {
+  display: block; width: 100%; text-align: left; cursor: pointer;
+  background: transparent; color: var(--text); border: 1px solid transparent;
+  border-radius: 9px; padding: 10px 12px; margin-bottom: 6px; font-size: .92rem;
+}
+.qbtn:hover { background: var(--panel-2); }
+.qbtn.active { background: var(--panel-2); border-color: var(--object); }
+.qbtn .qid { font-family: var(--mono); color: var(--object); font-size: .78rem; margin-right: 8px; }
+.qbtn.active .qid { color: var(--object); }
+.qbtn small { display: block; color: var(--dim); font-size: .74rem; margin-top: 2px; }
+
+.picker { margin: 14px 4px 4px; }
+.picker label { display: block; font-size: .72rem; text-transform: uppercase; letter-spacing: 1px; color: var(--faint); margin-bottom: 6px; }
+.picker select {
+  width: 100%; background: var(--panel-2); color: var(--text);
+  border: 1px solid var(--border); border-radius: 8px; padding: 8px 10px; font-family: var(--sans);
+}
+
+.legend { margin-top: 20px; border-top: 1px solid var(--border); padding-top: 14px; }
+.legend .row { display: flex; align-items: center; gap: 8px; font-size: .82rem; color: var(--dim); margin-bottom: 7px; }
+.legend .chip { width: 12px; height: 12px; border-radius: 50%; flex: none; }
+
+/* ---------- main ---------- */
+.main { padding: 22px 26px; overflow: auto; }
+.result-head { display: flex; align-items: baseline; gap: 12px; margin-bottom: 4px; flex-wrap: wrap; }
+.result-head h2 { margin: 0; font-size: 1.15rem; }
+.result-head .badge {
+  font-family: var(--mono); font-size: .72rem; color: var(--object);
+  border: 1px solid var(--border); border-radius: 999px; padding: 2px 9px;
+}
+.result-desc { color: var(--dim); margin: 0 0 16px; font-size: .92rem; }
+
+.cypher {
+  background: #0a0d13; border: 1px solid var(--border); border-left: 3px solid var(--object);
+  border-radius: 8px; padding: 12px 14px; margin: 0 0 18px;
+  font-family: var(--mono); font-size: .83rem; color: #cdd9e5; white-space: pre-wrap; overflow-x: auto;
+}
+.cypher .kw { color: #ff7b72; }
+.cypher .fn { color: #d2a8ff; }
+.cypher .str { color: #a5d6ff; }
+.cypher .cm { color: var(--faint); font-style: italic; }
+
+.stage { background: var(--panel); border: 1px solid var(--border); border-radius: 12px; padding: 8px; }
+.stage svg { display: block; width: 100%; height: auto; }
+
+/* big number card (counts) */
+.numcard { text-align: center; padding: 48px 20px; }
+.numcard .n { font-size: 4.5rem; font-weight: 800; font-variant-numeric: tabular-nums; }
+.numcard.obj .n { color: var(--object); }
+.numcard.att .n { color: var(--attr); }
+.numcard .lbl { color: var(--dim); text-transform: uppercase; letter-spacing: 1px; font-size: .8rem; }
+
+/* tables */
+table.data { border-collapse: collapse; width: 100%; font-size: .9rem; }
+table.data th, table.data td { text-align: left; padding: 8px 12px; border-bottom: 1px solid var(--border); }
+table.data th { color: var(--faint); text-transform: uppercase; font-size: .72rem; letter-spacing: .5px; position: sticky; top: 0; background: var(--panel); }
+table.data td.attr { color: var(--attr); font-family: var(--mono); font-size: .82rem; }
+table.data td.val { color: var(--text); font-variant-numeric: tabular-nums; }
+table.data tr:hover td { background: var(--panel-2); }
+.pill { font-family: var(--mono); font-size: .78rem; padding: 1px 8px; border-radius: 999px; border: 1px solid var(--border); }
+.pill.aaa { color: var(--invest); border-color: color-mix(in srgb, var(--invest) 40%, transparent); }
+.countrylist { color: var(--object); }
+
+/* svg text */
+text { font-family: var(--sans); }
+.n-label { font-size: 12px; fill: var(--text); }
+.n-sub { font-size: 10px; fill: var(--dim); }
+.e-label { font-size: 9px; fill: var(--faint); font-family: var(--mono); }
+.rel-label { font-size: 10px; fill: var(--dim); font-family: var(--mono); }
+
+.foot { color: var(--faint); font-size: .82rem; margin-top: 18px; }
+.foot a { color: var(--object); }

@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Pawlak Information System — Lab 6 (Neo4j) viewer</title>
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+<body>
+  <header class="topbar">
+    <span class="brand"><span class="dot">◉</span> Pawlak&nbsp;IS</span>
+    <div>
+      <h1 class="title">Pawlak Information System — Global Finance</h1>
+      <div class="subtitle"><code>S = (U, A)</code> · Discrete Mathematics · Lab 6 · a Neo4j graph, explored offline</div>
+    </div>
+  </header>
+
+  <section id="stats" class="stats"></section>
+
+  <div class="layout">
+    <nav class="sidebar">
+      <h3>Report queries</h3>
+      <div id="qnav"></div>
+
+      <div id="picker" class="picker" style="display:none">
+        <label for="objsel">Selected object (U)</label>
+        <select id="objsel"></select>
+      </div>
+
+      <div class="legend">
+        <div class="row"><span class="chip" style="background:#34d3c0"></span> :Object — a country</div>
+        <div class="row"><span class="chip" style="background:#f0a53e"></span> :Attribute — a column</div>
+        <div class="row"><span class="chip" style="background:#a78bfa"></span> :Group — rating grade</div>
+        <div class="row"><span class="chip" style="background:#f472b6"></span> :Group — rating class</div>
+      </div>
+    </nav>
+
+    <main class="main">
+      <div class="result-head">
+        <span id="rid" class="badge">Q0</span>
+        <h2 id="rlabel">Graph schema</h2>
+      </div>
+      <pre id="cypher" class="cypher"></pre>
+      <div id="stage" class="stage"></div>
+      <p class="foot">
+        This viewer reproduces the graph and every report query offline from
+        <code>global_finance.csv</code>. The authoritative Neo4j build lives in
+        <a href="../import.cypher">import.cypher</a> + <a href="../queries.cypher">queries.cypher</a>.
+      </p>
+    </main>
+  </div>
+
+  <script src="js/data.js"></script>
+  <script src="js/pawlak.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
