@@ -1,3 +1,8 @@
+import sys
+# Windows consoles default to cp1252; force UTF-8 so the ✓/✗/★ output can't crash.
+if hasattr(sys.stdout, "reconfigure"):
+    sys.stdout.reconfigure(encoding="utf-8")
+
 from job_recommender_data import load_users, load_jobs, print_users, print_jobs
 from job_recommender_similarity import SimilarityMetrics, SkillMatcher
 from job_recommender_engine import RecommendationEngine

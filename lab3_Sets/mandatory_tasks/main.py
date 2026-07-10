@@ -1,5 +1,11 @@
 """Main demo script."""
 
+import sys
+# Windows consoles default to cp1252, which can't encode the set-theory glyphs
+# (∈, ∉, ✓, ✗, …) this demo prints. Force UTF-8 so it runs everywhere.
+if hasattr(sys.stdout, "reconfigure"):
+    sys.stdout.reconfigure(encoding="utf-8")
+
 from core import Set, MultiSet, EmptySet
 from operations import (
     SetOperations, PowerSet, CardinalityOperations,
