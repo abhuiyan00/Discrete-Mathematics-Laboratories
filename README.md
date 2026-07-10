@@ -1,174 +1,169 @@
-# Discrete-Mathematics-Laboratories
-Solutions and discussions for Discrete Mathematics Laboratories for Masters.
+# Discrete Mathematics — Laboratories
 
-This repository currently contains five labs:
+Solutions for the **Discrete Mathematics** laboratory series (Master's level, PWR).
+Each lab takes one pillar of discrete maths and turns it into something you can *run* —
+a solver, a notebook, a tested library, an interactive explorer, a web app, a graph
+database. This page is the guided tour; every lab also has its own README with the
+details and how-to-run.
 
-1. Lab 1: Max-Cut optimization using a multi-start local search heuristic
-2. Lab 2: Asymmetric cryptography (RSA) implementation and classical factorization attacks
-3. Lab 3: Set theory framework with logic, characteristic functions, and an optional set-based job recommender
-4. Lab 4: Complexity, Growth and Interactive Explorations (Ackermann, Nim, Stirling)
-5. Lab 5: Graph Theory web case studies (SentinelNet + Q-HYDRO Wroclaw)
+> **New here?** Read this page top to bottom — it walks the six labs as one story, from
+> optimisation and cryptography, through set theory and complexity, to graphs and a
+> knowledge graph in Neo4j. Then open any lab folder for the deep dive.
 
-## Lab 1: Max-Cut Problem
+---
 
-### Objective
-Implement and analyze a local search heuristic for the Maximum Cut problem on weighted graphs.
+## The arc at a glance
 
-### Problem Description
-The Maximum Cut (Max-Cut) problem aims to partition graph vertices into two sets such that the total weight of edges between the sets is maximized. This is an NP-hard combinatorial optimization problem.
+| # | Lab | The big idea | Built with |
+|---|-----|--------------|-----------|
+| 1 | [Max-Cut](lab1_Max_Cut/) | NP-hard optimisation by a **multi-start local-search heuristic** | Python |
+| 2 | [Cryptography](lab2_Crypt/) | **RSA** and the classical **factorization attacks** that break weak keys | Jupyter · NumPy |
+| 3 | [Sets](lab3_Sets/) | **Set theory** as a tested library — and a set-similarity **recommender** | Python |
+| 4 | [Complexity](lab4_Complexity/) | **Growth & computability**: Ackermann, Stirling, Nim | Python (matplotlib · tkinter) + web |
+| 5 | [Graph Theory](lab5_GraphTheory/) | Core **graph algorithms** on realistic networks, interactively | HTML · JS · React |
+| 6 | [Neo4j](lab6_Neo4j/) | A **Pawlak information system** as a property graph in **Neo4j** | Cypher + offline viewer |
 
-### Implementation Algorithm: Local Search with Multi-Start
-1. **Initialization**: Random partition of vertices into two sets
-2. **Gain Computation**: For each vertex, compute improvement from moving it to the opposite set
-3. **Local Search Move**: Move the best-improving vertex while improvement is positive
-4. **Multi-Start Strategy**: Repeat the local search 10 times with different random seeds
-5. **Selection**: Return the best cut found across all restarts
+The thread running through all six: take a formal object (a cut, a modulus, a set, a
+recursion, a graph, an information system) and make its behaviour **observable**.
 
-### Input and Output Summary
-- Input graph format uses `V` and `E` sections with weighted edges.
-- The implementation parses nodes and weighted adjacency lists from `input.txt`.
-- The solver reports cut weight, number of nodes, and total partition search space `2^n`.
+---
 
-### Conclusion
-The multi-start local search heuristic offers an efficient and practical approach to the Max-Cut problem, trading exponential complexity for polynomial runtime while leveraging random restarts to explore diverse regions of the solution space. Although it does not guarantee the global optimum, empirical results show that it consistently produces high-quality cuts for graphs of moderate size. This method strikes a balance between computational feasibility and solution quality, making it suitable for real-world applications where exact methods are infeasible.
+## Lab 1 — Cutting a graph in half (Max-Cut by local search)
 
-## Lab 2: Asymmetric Cryptography (RSA) and Cryptanalysis
+The series opens with a hard problem made practical. **Maximum Cut** — partition a
+graph's vertices into two sides so the crossing-edge weight is maximised — is **NP-hard**;
+the bundled instance has `2¹²⁷` possible partitions. Instead of an exact search, Lab 1
+uses a **local-search heuristic with multi-start**: greedily move the best-improving
+vertex to a local optimum, restart from 10 random partitions, keep the best cut. It
+trades the guarantee of optimality for a fast, high-quality answer — the everyday bargain
+of combinatorial optimisation.
 
-### Objective
-Build an end-to-end educational RSA workflow and experimentally evaluate classical integer-factorization attacks that can break weak RSA keys.
-
-### Scope of Implementation
-The notebook-based lab includes:
-1. **Core number-theory primitives**: primality testing (Miller-Rabin), prime generation, extended Euclidean algorithm, and modular inverse
-2. **RSA key generation**: creation of public/private key pairs from generated primes
-3. **Encryption/Decryption pipeline**: text encryption and plaintext recovery using modular exponentiation
-4. **Attack simulations**: recovery of factors and private key through multiple attack methods
-
-### Implemented Attack Methods
-1. **Trial Division**: Exhaustive factor search up to `sqrt(n)`
-2. **Fermat Factorization**: Uses `n = a^2 - b^2`, effective when `p` and `q` are close
-3. **Pollard's rho**: Probabilistic factorization using pseudo-random walks and cycle detection
-4. **Simplified Quadratic Sieve**: Educational smooth-number based variant
-
-### Experimental Components
-The lab includes interactive experiments and plots for:
-- Attack runtime versus key size
-- Attack success rate across repeated trials
-- Sensitivity of attack performance to prime gap `|p - q|`
-- Theoretical complexity growth comparison across methods
-- Extrapolated feasibility discussion for large key sizes (for example, 1024/2048-bit RSA)
-
-### Conclusion
-Lab 2 demonstrates a central cryptographic principle: RSA security depends on the hardness of factoring large semiprimes. For small educational key sizes, attacks can often recover factors quickly; however, as key size increases, computational cost grows dramatically, making properly generated modern RSA keys infeasible to break with classical methods. The notebook combines theory, implementation, and empirical benchmarking to show both how RSA works and why key-size selection is critical in practice.
-
-## Lab 3: Set Theory Framework and Set-Based Recommendation
-
-### Objective
-Design a modular Python framework to model core set-theory concepts and demonstrate how set operations can be applied to practical recommendation tasks.
-
-### Scope of Implementation
-Lab 3 is divided into two parts:
-1. **Mandatory tasks**: a foundational framework for sets, multisets, logic formulas, characteristic functions, and inclusion-exclusion
-2. **Optional task**: a job recommendation engine that uses set-similarity metrics between user skill profiles
-
-### Mandatory Module Coverage
-The mandatory module includes:
-1. **Core abstractions**: `Set`, `MultiSet`, and `EmptySet`
-2. **Set operations**: union, intersection, relative and absolute complement, Cartesian product, power set, and cardinality helpers
-3. **Logic utilities**: propositional formula parsing and truth-table generation
-4. **Characteristic functions**: membership functions for sets and multisets
-5. **Validation and demos**: test suite, main walkthrough, and additional worked examples
-
-### Optional Module Coverage
-The optional module includes:
-1. User and job data models with sample datasets
-2. Similarity metrics: Jaccard, Sorensen-Dice, and Cosine
-3. Skill-match analysis (matching and missing skills)
-4. Recommendation scoring and ranked outputs
-5. End-to-end demonstration script across multiple users and metrics
-
-### Conclusion
-Lab 3 links mathematical foundations to software design by turning abstract set theory into reusable program components and applied workflows. The mandatory section builds confidence with formal operations and logic reasoning, while the optional recommender demonstrates how set similarity directly supports decision-making in real scenarios. Together, they highlight both theoretical rigor and practical relevance in discrete mathematics.
-
-## Lab 4: Complexity, Growth and Interactive Explorations
-
-### Objective
-Investigate functions and algorithms that illustrate extreme growth rates and algorithmic complexity. Lab 4 contains both interactive Python explorations and a static web-based presentation to make asymptotic phenomena tangible.
-
-### Structure
-Lab 4 is organised into two parts:
-
-- **Part 1 (Python projects)** — interactive, notebook-style and script-based explorations implemented in Python. Current subprojects:
-	- `Ackermann_Function` — an in-depth, interactive explorer of the Ackermann function: definition, closed forms for small rows, visualisation, recursion-call counts, and a memoised OOP implementation with special-casing for `A(4,2)`.
-	- `nim_game` — a full GUI Nim implementation (tkinter) with four rule variants, three AI difficulty levels, and a layered screen architecture for gameplay and setup.
-	- `Stirlings_Approximation` — numerical and visual study of Stirling's formula for `n!`, including log-space computation, error analysis, and interactive plots.
-
-- **Part 2 (Web demo)** — a browser-based bundle (`DiscreteMath Lab4`) that mirrors the Part 1 content with interactive web pages and JavaScript visualisations. Files include `index.html`, interactive scripts (`ackermann.js`, `nim.js`, `stirling.js`), and small helper modules for rendering and tweaks.
-
-### How to Run
-
-Python (Part 1):
+![Max-Cut solver output](lab1_Max_Cut/screenshots/max-cut-output.png)
 
 ```powershell
-# from the repo root
-cd "d:\Git area (testing)\Discrete-Mathematics-Laboratories\lab4_Complexity\part1\Ackermann_Function"
-pip install -r requirements.txt  # if present; otherwise install numpy and matplotlib
-python ackermann.py
-
-# Nim GUI
-cd ..\nim_game
-python main.py
-
-# Stirling interactive
-cd ..\Stirlings_Approximation
-python stirling.py
+cd lab1_Max_Cut && python max_cut_solver.py
 ```
 
-Web demo (Part 2):
+→ details in **[lab1_Max_Cut/README.md](lab1_Max_Cut/README.md)**
+
+---
+
+## Lab 2 — Breaking RSA when the keys are weak
+
+From optimisation to **cryptography**. Lab 2 builds **RSA** end to end — Miller–Rabin
+primality, key generation, modular-exponentiation encrypt/decrypt — then turns attacker
+and factors the modulus with four classical methods: **trial division**, **Fermat**,
+**Pollard's ρ** and a simplified **Quadratic Sieve**. The payoff is empirical: benchmark
+each attack against key size, watch the success rate collapse as the modulus grows, and
+extrapolate to why 1024/2048-bit RSA is safe. Security as a *measured* property, not an
+assertion.
+
+![RSA attacks benchmarked against key size](lab2_Crypt/screenshots/rsa-analysis.png)
 
 ```powershell
-# open the web demo in your browser
-cd "d:\Git area (testing)\Discrete-Mathematics-Laboratories\lab4_Complexity\part2\DiscreteMath Lab4"
-start index.html
+cd lab2_Crypt && jupyter notebook Crypto_Lab2.ipynb   # Run All
 ```
 
-### Notes
-- Part 1 focuses on numerical accuracy, recursion behaviour, and Python-driven visualisations (matplotlib + interactive widgets).
-- Part 2 provides a lightweight client-side presentation suitable for sharing or embedding in course pages.
+→ details in **[lab2_Crypt/README.md](lab2_Crypt/README.md)**
 
-### Conclusion
-Lab 4 ties asymptotic analysis and algorithmic growth to concrete tools and interactive experiments. The Ackermann explorer shows how a deceptively simple recursion can escape primitive recursion; Nim connects game theory to algorithmic strategy and UI design; Stirling's approximation demonstrates why asymptotic estimates are indispensable in combinatorics and complexity analysis.
+---
 
-## Lab 5: Graph Theory Web Case Studies
+## Lab 3 — Set theory you can run (and a recommender on top)
 
-### Objective
-Build interactive, data-rich graph theory case studies that apply core algorithms to realistic infrastructure scenarios.
+Back to foundations. Lab 3 implements **set theory** as a small, **unit-tested** Python
+library — `Set`, `MultiSet`, `EmptySet`; union, intersection, complements, Cartesian
+product, power set; a propositional-logic parser; and **characteristic functions** with
+the identities that tie them to the operations. Then the optional task proves the point
+that abstract structure earns its keep: a **job recommender** that ranks candidates by
+**Jaccard / Sørensen–Dice / cosine** similarity of skill sets.
 
-### Scope of Implementation
-The lab now includes two browser-based projects under `lab5_GraphTheory`:
-
-1. **SentinelNet**
-	- Environmental monitoring network case study for an Iberian region
-	- Multi-node, weighted graph with interactive map-style visualization
-	- Algorithm walkthroughs including traversal, shortest paths, spanning trees, and resilience analysis
-
-2. **Q-HYDRO Wroclaw**
-	- Funding-proposal style scenario for a Lower Silesia sensing network
-	- 25-node weighted graph with seven algorithmic lenses (BFS, Prim MST, Tarjan, Dijkstra, recovery heuristics, TSP approximation, planarity checks)
-	- In-browser computed metrics and interactive failure/routing exploration
-
-### How to Run
-Both projects are static web apps (no build step required):
+![Set-theory framework demo](lab3_Sets/screenshots/set-theory-demo.png)
 
 ```powershell
-# from the repo root
-cd "d:\Git area (testing)\Discrete-Mathematics-Laboratories\lab5_GraphTheory\SentinelNet"
-start SentinelNet.html
-
-# Q-HYDRO Wroclaw
-cd "d:\Git area (testing)\Discrete-Mathematics-Laboratories\lab5_GraphTheory\Q-HYDRO Wrocław"
-start "Q-HYDRO Wrocław.html"
+cd lab3_Sets\mandatory_tasks && python main.py        # framework demo
+cd ..\optional_task && python job_recommender_demo.py # the recommender
 ```
 
-### Conclusion
-Lab 5 connects core graph algorithms to practical network-design scenarios through two complementary case studies. Together, they reinforce algorithmic intuition and the real-world meaning of connectivity, routing, robustness, and cost-aware planning.
+→ details in **[lab3_Sets/README.md](lab3_Sets/README.md)**
+
+---
+
+## Lab 4 — How fast things grow (Ackermann, Stirling, Nim)
+
+Lab 4 is about **growth and complexity**, told through three classics. **Ackermann** is a
+total computable function that is *not* primitive recursive — it outruns every bounded
+loop, and its inverse `α(n) ≤ 4` is why Union–Find is "almost linear." **Stirling's
+approximation** tames the factorial and underpins the `Θ(n log n)` sorting bound. **Nim**
+is a game solved completely by parity — the **Sprague–Grundy** XOR rule. Each ships as an
+interactive Python explorer (matplotlib dashboards; a tkinter game) and again as a
+zero-build **web demo**.
+
+![Ackermann explorer](lab4_Complexity/screenshots/ackermann-plot-0.png)
+
+```powershell
+cd lab4_Complexity\part1\Ackermann_Function && python ackermann.py
+cd ..\nim_game && python main.py                     # the tkinter game
+start "lab4_Complexity\part2\DiscreteMath Lab4\index.html"   # the web demo
+```
+
+→ details in **[lab4_Complexity/README.md](lab4_Complexity/README.md)**
+
+---
+
+## Lab 5 — Graphs that run (two interactive network studies)
+
+Now the algorithms of **graph theory**, applied to realistic infrastructure and made
+interactive in the browser. **SentinelNet** models an Iberian environmental-monitoring
+grid; **Q-HYDRO Wrocław** a Lower-Silesia sensing network. Between them they exercise
+**BFS/DFS**, **Dijkstra / Bellman–Ford / A***, **minimum spanning trees**, **bridges and
+articulation points** (resilience) and a **TSP** tour — each tied to a real question:
+what's reachable, the cheapest backbone, what breaks the network. Both are static apps
+that run offline.
+
+![SentinelNet — graph algorithms on one canvas](lab5_GraphTheory/screenshots/sentinelnet-home.png)
+
+```powershell
+start "lab5_GraphTheory\SentinelNet\SentinelNet.html"
+start "lab5_GraphTheory\Q-HYDRO Wrocław\Q-HYDRO Wrocław.html"
+```
+
+> SentinelNet was refactored to run **fully offline** — React is vendored locally and the
+> JSX is precompiled, so it no longer needs a CDN or a live internet connection.
+
+→ details in **[lab5_GraphTheory/README.md](lab5_GraphTheory/README.md)**
+
+---
+
+## Lab 6 — Knowledge as a graph (a Pawlak information system in Neo4j)
+
+The series closes by moving from algorithms *on* graphs to storing knowledge *as* a
+graph. Lab 6 models a **Pawlak information system** `S = (U, A)` — the formal basis of
+**rough-set theory** — as a **bipartite property graph** in **Neo4j**: **39** objects
+(countries) and **25** attributes joined by **975** `HAS_VALUE` edges, plus an optional
+**object-group hierarchy** (rating grade → class) built with **Cypher**. The `.cypher`
+scripts are the authoritative deliverable; a self-contained **offline viewer** reproduces
+the same graph and every report query (schema, counts, an object's star, selection by
+condition, the hierarchy) so you can explore it without installing anything.
+
+![Lab 6 viewer — the object-group hierarchy](lab6_Neo4j/screenshots/viewer-hierarchy.png)
+
+```powershell
+start "lab6_Neo4j\viewer\index.html"   # the offline viewer
+# or run import.cypher + queries.cypher in Neo4j Desktop (see lab6_Neo4j/guide.txt)
+```
+
+→ details in **[lab6_Neo4j/README.md](lab6_Neo4j/README.md)**
+
+---
+
+## Running everything
+
+| Stack | You need |
+|-------|----------|
+| Labs 1, 3, 4 (Part 1) | **Python 3**; `matplotlib` for the Lab 4 plots (tkinter ships with Python) |
+| Lab 2 | **Jupyter** + NumPy/Matplotlib (or open the notebook in Google Colab) |
+| Labs 4 (Part 2), 5, 6 (viewer) | any modern **browser** — all run offline, no build step |
+| Lab 6 (full) | **Neo4j Desktop** for the authoritative Cypher build |
+
+Each lab folder is self-contained and carries its own README with the exact commands,
+inputs and expected output.
