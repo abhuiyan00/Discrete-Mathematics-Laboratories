@@ -1,5 +1,8 @@
 # Discrete Mathematics — Laboratories
 
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
+[![Open source](https://img.shields.io/badge/open%20source-free%20to%20use-brightgreen.svg)](#license)
+
 Solutions for the **Discrete Mathematics** laboratory series (Master's level, PWR).
 Each lab takes one pillar of discrete maths and turns it into something you can *run* —
 a solver, a notebook, a tested library, an interactive explorer, a web app, a graph
@@ -167,3 +170,11 @@ start "lab6_Neo4j\viewer\index.html"   # the offline viewer
 
 Each lab folder is self-contained and carries its own README with the exact commands,
 inputs and expected output.
+
+---
+
+## License
+
+Released under the [MIT License](LICENSE) — open source and free to use. You may use, copy,
+modify, and redistribute everything in this repository for any purpose, including commercially;
+the only condition is to keep the copyright and license notice.
