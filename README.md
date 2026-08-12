@@ -1,8 +1,5 @@
 # Discrete Mathematics — Laboratories
 
-[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
-[![Open source](https://img.shields.io/badge/open%20source-free%20to%20use-brightgreen.svg)](#license)
-
 Solutions for the **Discrete Mathematics** laboratory series (Master's level, PWR).
 Each lab takes one pillar of discrete maths and turns it into something you can *run* —
 a solver, a notebook, a tested library, an interactive explorer, a web app, a graph
@@ -173,8 +170,22 @@ inputs and expected output.
 
 ---
 
+## Technology
+
+- **Python** — implements the laboratory programs for cuts, sets, recursion, and games.
+- **Jupyter Notebook with NumPy** — provides the cryptography lab's executable numerical workspace.
+- **matplotlib and tkinter** — turn complexity exercises and Nim into local interactive explorations.
+- **Vendored React** — keeps the static graph-theory applications usable without a CDN or build step.
+- **Neo4j with Cypher** — defines and queries the Pawlak information-system graph; the accompanying viewer makes the delivered graph inspectable offline.
+
+## Skills demonstrated
+
+- Translating discrete structures into executable Python representations.
+- Designing local-search and set-operation workflows around explicit inputs and outputs.
+- Presenting mathematical behaviour through notebooks, plots, and interactive browser views.
+- Modelling relationships and queries as a property graph with Cypher.
+- Packaging browser demonstrations so they remain available offline.
+
 ## License
 
-Released under the [MIT License](LICENSE) — open source and free to use. You may use, copy,
-modify, and redistribute everything in this repository for any purpose, including commercially;
-the only condition is to keep the copyright and license notice.
+MIT ([`LICENSE`](LICENSE)).
